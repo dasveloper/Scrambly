@@ -11,6 +11,7 @@ export default function Main() {
   const [file, setFile] = useState(null);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [processing, setIsProcessing] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -28,12 +29,17 @@ export default function Main() {
   };
   const handleScrambleImage = () => {
     setError(null);
+    setIsProcessing(true);
+
     if (!file) {
       setError('Upload the file you want to scramble');
+      setIsProcessing(false);
+
       return;
     }
     if (!password) {
       setError('Enter a password to scramble the image');
+      setIsProcessing(false);
       return;
     }
     const rng = seedrandom(password);
@@ -41,6 +47,7 @@ export default function Main() {
       const imgPixels = pixels;
       if (err) {
         setError(err);
+        setIsProcessing(false);
         return;
       }
       const rndIndexes = randomIndexes(rng, imgPixels.data);
@@ -48,16 +55,20 @@ export default function Main() {
       const pixelCanvas = await savePixels(imgPixels, 'canvas');
       const pixelDataUrl = pixelCanvas.toDataURL('image/png');
       download(pixelDataUrl, 'image.png', 'image/png');
+      setIsProcessing(false);
     });
   };
   const handleUnscrambleImage = () => {
     setError(null);
+    setIsProcessing(true);
     if (!file) {
       setError('Upload the file you want to unscramble');
+      setIsProcessing(false);
       return;
     }
     if (!password) {
       setError('Enter a password to unscramble the image');
+      setIsProcessing(false);
       return;
     }
     const rng = seedrandom(password);
@@ -65,6 +76,7 @@ export default function Main() {
       const imgPixels = pixels;
       if (err) {
         setError(err);
+        setIsProcessing(false);
         return;
       }
       const rndIndexes = randomIndexes(rng, imgPixels.data);
@@ -72,6 +84,7 @@ export default function Main() {
       const pixelCanvas = await savePixels(imgPixels, 'canvas');
       const pixelDataUrl = pixelCanvas.toDataURL('image/png');
       download(pixelDataUrl, 'image.png', 'image/png');
+      setIsProcessing(false);
     });
   };
   return (
@@ -114,7 +127,12 @@ export default function Main() {
           </div>
 
         </div>
-        <div className="py-10 px-6 max-w-3xl mx-auto">
+        <div className="relative py-10 px-6 max-w-3xl mx-auto">
+          {processing && (
+          <div className="bg-white opacity-70 absolute w-full h-full inset-0 flex justify-center items-center z-40">
+            <p className="text-2xl text-gray-800">Processing Image...</p>
+          </div>
+          )}
           <span className="block text-sm font-medium text-gray-700">Choose file to scramble or unscramble</span>
           <label htmlFor="file-upload" className="mt-1 flex flex-col items-center px-6 py-8 hover:bg-gray-50 border-2 border-gray-300 border-dashed rounded-md">
             {file && <img alt="Upload preview" src={file} />}
@@ -186,6 +204,7 @@ export default function Main() {
             </div>
           </div>
           )}
+
         </div>
         <div className="py-10 px-6 max-w-3xl mx-auto">
           <h2 className="text-center text-3xl font-extrabold text-gray-900 sm:text-4xl">
