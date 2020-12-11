@@ -1,0 +1,37 @@
+{
+  "name": "scrambly",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.1.0",
+    "downloadjs": "^1.4.7",
+    "get-pixels": "^3.3.2",
+    "next": "10.0.3",
+    "postcss": "^8.2.1",
+    "postcss-import": "^13.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "react": "17.0.1",
+    "react-compare-image": "^3.0.2",
+    "react-dom": "17.0.1",
+    "save-pixels": "^2.3.4",
+    "seedrandom": "^3.0.5",
+    "streamsaver": "^2.0.5",
+    "tailwindcss": "^2.0.1"
+  },
+  "resolutions": {
+    "postcss-preset-env/postcss-focus-within": "4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  }
+}
